@@ -1,0 +1,37 @@
+<%= form_for(source_api) do |f| %>
+  <% if source_api.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(source_api.errors.count, "error") %> prohibited this source_api from being saved:</h2>
+
+      <ul>
+      <% source_api.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :access_url %>
+    <%= f.text_field :access_url %>
+  </div>
+
+  <div class="field">
+    <%= f.label :website %>
+    <%= f.text_field :website %>
+  </div>
+
+  <div class="field">
+    <%= f.label :default %>
+    <%= f.check_box :default %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

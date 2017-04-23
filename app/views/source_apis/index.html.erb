@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Source Apis</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Access url</th>
+      <th>Website</th>
+      <th>Default</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @source_apis.each do |source_api| %>
+      <tr>
+        <td><%= source_api.name %></td>
+        <td><%= source_api.access_url %></td>
+        <td><%= source_api.website %></td>
+        <td><%= source_api.default %></td>
+        <td><%= link_to 'Load the dump', source_api_load_dump_path(source_api), method: :post %> |</td>
+        <td><%= link_to 'Show', source_api %>|</td>
+        <td><%= link_to 'Edit', edit_source_api_path(source_api) %>|</td>
+        <td><%= link_to 'Destroy', source_api, method: :delete, data: { confirm: 'Are you sure?' } %>|</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Source Api', new_source_api_path %>

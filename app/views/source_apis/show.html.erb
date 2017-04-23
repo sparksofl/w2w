@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @source_api.name %>
+</p>
+
+<p>
+  <strong>Access url:</strong>
+  <%= @source_api.access_url %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= @source_api.website %>
+</p>
+
+<p>
+  <strong>Default:</strong>
+  <%= @source_api.default %>
+</p>
+
+<%= link_to 'Edit', edit_source_api_path(@source_api) %> |
+<%= link_to 'Back', source_apis_path %>
