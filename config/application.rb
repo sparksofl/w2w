@@ -19,6 +19,7 @@ Bundler.require(*Rails.groups)
 module What2watch
   class Application < Rails::Application
     Tmdb::Api.key(Rails.application.secrets.tmdb_api_key)
+    Tmdb::Api.language('en')
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
