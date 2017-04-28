@@ -9,8 +9,17 @@
   </head>
 
   <body>
-  <%= link_to 'Movies', movies_path %> |
-  <%= link_to 'Source APIs', source_apis_path %> |
+
+  <nav class="nav">
+    <div class="nav-left">
+      cool text
+    </div>
+    <div class="nav-right nav-menu">
+      <%= link_to 'Movies', movies_path, class: "nav-item" %>
+      <%= link_to 'Source APIs', source_apis_path, class: "nav-item" %>
+    </div>
+  </nav>
+
   <%= yield %>
   </body>
 </html>

@@ -58,3 +58,4 @@ gem 'kaminari-actionview'
 gem "bulma-rails", "~> 0.4.0"
 
 gem 'themoviedb-api'
+gem 'rinruby', git: 'git@github.com:clbustos/rinruby.git'

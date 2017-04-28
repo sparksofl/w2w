@@ -1,39 +1,74 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @movie.title %>
-</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>General info</th>
+      <th>Similar</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td width="70%">
 
-<p>
-  <strong>Tmdb:</strong>
-  <%= @movie.tmdb_id %>
-</p>
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-96x96">
+                <img src=<%= @movie.poster_path %>>
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4"><%= @movie.title %></p>
+              <p class="subtitle is-6"><%= @movie.tagline %></p>
+            </div>
+          </div>
 
-<p>
-  <strong>Imdb:</strong>
-  <%= @movie.imdb_id %>
-</p>
+          <div class="content">
+            <br>
+            <br>
+            <br>
+            <%= @movie.overview %>
+            <br>
+            <small>
+              <strong>Tmdb:</strong>
+              <%= @movie.tmdb_id %>
+              <strong>Imdb:</strong>
+              <%= @movie.imdb_id %>
+              <%= @movie.keywords %>
+            </small>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <%= link_to 'Edit', edit_movie_path(@movie), class: "card-footer-item" %>
+          <%= link_to 'Back', movies_path, class: "card-footer-item" %>
+        </footer>
+      </div>
+    </td>
+    <td width="30%">
+      <% similar = Quanteda.run(@movie.id)[0..5] %>
 
-<p>
-  <strong>Overview:</strong>
-  <%= @movie.overview %>
-</p>
-
-<p>
-  <strong>Keywords:</strong>
-  <%= @movie.keywords %>
-</p>
-
-<p>
-  <strong>Tagline:</strong>
-  <%= @movie.tagline %>
-</p>
-
-<p>
-  <strong>Poster path:</strong>
-  <%= image_tag @movie.poster_path %>
-</p>
-
-<%= link_to 'Edit', edit_movie_path(@movie) %> |
-<%= link_to 'Back', movies_path %>
+        <% similar.each_with_index do |m, i|%>
+          <%= link_to m do %>
+              <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img src=<%= m.poster_path %>>
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-4"><%= m.title %></p>
+                      <p class="subtitle is-6"><%= m.tagline %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <% end  %>
+        <% end %>
+    </td>
+  </tr>
+  </tbody>
+</table>

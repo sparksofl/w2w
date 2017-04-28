@@ -1,3 +1,9 @@
+GIT
+  remote: git@github.com:clbustos/rinruby.git
+  revision: c0406ff406699328aa885ea548681006326b1ea5
+  specs:
+    rinruby (2.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -200,6 +206,7 @@ DEPENDENCIES
   pry
   puma (~> 3.0)
   rails (~> 5.0.2)
+  rinruby!
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
