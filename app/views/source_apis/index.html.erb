@@ -1,39 +1,32 @@
+<h2 class="title is-2">Source APIs</h2>
 
-<section class="hero is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">Source APIs</h1>
-    </div>
+<div class="tile is-ancestor">
+  <div class="tile is-parent">
+    <article class="tile is-child box notification is-primary">
+      <%= link_to 'Load the dump', source_api_load_dump_path(SourceApi.find_by(name: 'themoviedb-api')), method: :post, class: "subtitle button is-primary is-inverted is-outlined" %>
+      <p>Only overview info</p>
+    </article>
   </div>
-</section>
+  <div class="tile is-parent">
+    <article class="tile is-child box notification is-danger">
+      <%= link_to 'Load more data', source_api_load_dump_path(SourceApi.find_by(name: 'wiki')), method: :post, class: "subtitle button is-danger is-inverted is-outlined" %>
+      <p>Find and save available descriptions from wiki. This could take a while.</p>
+    </article>
+  </div>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Access url</th>
-      <th>Website</th>
-      <th>Default</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @source_apis.each do |source_api| %>
-      <tr>
-        <td><%= source_api.name %></td>
-        <td><%= source_api.access_url %></td>
-        <td><%= source_api.website %></td>
-        <td><%= source_api.default %></td>
-        <td><%= link_to 'Load the dump', source_api_load_dump_path(source_api), method: :post, class: "button is-primary is-outlined" %></td>
-        <td><%= link_to 'Show', source_api, class: "button" %></td>
-        <td><%= link_to 'Edit', edit_source_api_path(source_api), class: "button" %></td>
-        <td><%= link_to 'Destroy', source_api, method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Source Api', new_source_api_path %>
+<div class="tile is-ancestor">
+  <div class="tile is-parent">
+    <article class="tile is-child notification box is-warning">
+      <%= link_to 'Genres dump init', dump_genres_path, method: :post, class: "subtitle button is-warning is-inverted is-outlined" %>
+      <p>Basic info from TMDB</p>
+    </article>
+  </div>
+  <div class="tile is-parent">
+    <article class="tile is-child box">
+      <%= link_to 'Assosiate movies', find_similar_movies_path, method: :post, class: "subtitle button is-warning is-inverted is-outlined" %>
+      <p>via external R script</p>
+    </article>
+  </div>
+</div>

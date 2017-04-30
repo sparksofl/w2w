@@ -1,35 +1,16 @@
-<section class="hero is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">Movies</h1>
-    </div>
-  </div>
-</section>
-
-<br>
-<%= paginate @movies %>
-<br>
-
 <% @movies.each_slice(4) do |n_movies| %>
-    <div class="tile is-ancestor">
+    <div class="columns">
       <% n_movies.each do |movie| %>
-        <div class="tile is-parent">
+        <div class="column is-2 is-offset-1">
           <%= link_to movie_path(movie) do %>
-            <div class="card tile is-child box">
+            <div class="">
                 <div class="card-image">
                   <figure class="image">
                     <img style="height: 50%" src=<%= movie.poster_path %>>
                   </figure>
                 </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-4"><%= movie.title %></p>
-                      <p class="subtitle is-6"><%= movie.tagline %></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="content">
+                <div class="media-content">
+                  <p><%= movie.title %></p>
                 </div>
               </div>
           <% end %>

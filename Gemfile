@@ -56,7 +56,7 @@ gem 'bson_ext'
 gem 'kaminari-mongoid'
 gem 'kaminari-actionview'
 gem "bulma-rails", "~> 0.4.0"
-gem 'activeadmin'
+gem 'rails_admin', '~> 1.1.1'
 gem 'devise'
 
 gem 'themoviedb-api'

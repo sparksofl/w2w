@@ -1,13 +1,14 @@
 class SourceApisController < ApplicationController
   before_action :set_source_api, only: [:show, :edit, :update, :destroy, :load_dump]
+  before_action :authenticate_admin_user!
 
   def load_dump
     if @source_api.name == 'themoviedb-api'
-      movies = MoviesDumpLoader.load
+      movies = DumpLoader.load
       Movie.batch_create(movies)
       redirect_to movies_path
     elsif @source_api.name == 'wiki'
-      MoviesDumpLoader.update_via_wiki
+      DumpLoader.update_via_wiki
     end
   end
 

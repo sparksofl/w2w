@@ -1,11 +1,16 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
+  def find_similar
+    Quanteda.pure_run
+    redirect_to root_path
+  end
+
   # GET /movies
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.order_by('count(similar_ids) desc').page(params[:page]).per(12)
+    @movies = Movie.search(params[:search]).order_by('count(similar_ids) desc').page(params[:page]).per(16)
   end
 
   # GET /movies/1

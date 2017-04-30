@@ -1,4 +1,5 @@
 require "rinruby"
+require "rake"
 
 class Quanteda
   def self.run(movie_id)
@@ -61,7 +62,7 @@ EOF
   end
 
   def self.pure_run
-    filepath = Rails.root.join('lib', 'external_scripts', 'script.R')
-    t = `Rscript --vanilla #{filepath}`
+    load './lib/tasks/run_r.rake'
+    Rake::Task['run_r'].execute
   end
 end

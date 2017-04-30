@@ -1,11 +1,11 @@
 require 'wikipedia'
 
-class MoviesDumpLoader
+class DumpLoader
   def self.load
     # randoms = Tmdb::Movie.top_rated.map(&:id).map { |id| Tmdb::Movie.detail(id)  }
     randoms = []
-    (1..150).each do |i|
-      randoms.push(*Tmdb::Movie.top_rated(page: i)[:results])
+    (1..50).each do |i|
+      randoms.push(*Tmdb::Movie.popular(page: i)[:results])
       # randoms.push(*Tmdb::Movie.top_rated(page: i)[:results].flat_map(&:id))
     end
     # TODO: use api_source param to request data from different resources
@@ -19,6 +19,13 @@ class MoviesDumpLoader
       page = Wikipedia.find( movie.title)
       next unless page.text
       movie.update(desc: page.text)
+    end
+  end
+
+  def self.load_genres
+    genres = Tmdb::Genre.movie_list
+    genres.map! do |genre|
+      { tmdb_id: genre.id, name: genre.name }
     end
   end
 
