@@ -10,16 +10,35 @@
 
   <body>
 
-  <nav class="nav has-shadow">
-    <div class="nav-left">
-      <h1 class=nav-item" style="font-size: 36px"><%= link_to '🍿', root_path %></h1>
-    </div>
-    <div class="nav-right nav-menu">
-      <%= link_to 'Movies', movies_path, class: "nav-item" %>
-      <%= link_to 'Source APIs', source_apis_path, class: "nav-item" %>
-    </div>
-  </nav>
+  <div class="columns">
+    <div class="column">
+      <nav class="nav has-shadow">
+        <div class="nav-left">
+          <h1 class=nav-item" style="font-size: 36px"><%= link_to '🍿', root_path %></h1>
+        </div>
+        <div class="nav-right nav-menu">
+          <%= link_to 'Movies', movies_path, class: "nav-item" %>
+          <%= link_to 'Source APIs', source_apis_path, class: "nav-item" %>
 
-  <%= yield %>
+          <% if user_signed_in? %>
+              <%= link_to 'Profile', edit_user_registration_path, class: "nav-item" %>
+              <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item" %>
+          <% else %>
+              <%= link_to "Sign up", new_user_registration_path, class: "nav-item" %>
+              <%= link_to "Sign in", new_user_session_path, class: "nav-item" %>
+          <% end %>
+        </div>
+      </nav>
+      <br>
+      <% if notice %>
+          <div class="notification is-info"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+          <div class="notification is-danger"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </div>
+
   </body>
 </html>

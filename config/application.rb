@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 module What2watch
   class Application < Rails::Application
+    require 'simple_enum/mongoid'
     Tmdb::Api.key(Rails.application.secrets.tmdb_api_key)
     Tmdb::Api.language('en')
     # Settings in config/environments/* take precedence over those specified here.

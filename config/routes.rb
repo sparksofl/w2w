@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'users/sessions' }, path: ''
   root to: 'movies#index'
   resources :source_apis do
     post 'load_dump'

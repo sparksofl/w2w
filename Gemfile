@@ -63,3 +63,4 @@ gem 'themoviedb-api'
 gem 'wikipedia-client'
 gem 'rinruby', git: 'git@github.com:clbustos/rinruby.git'
 gem 'rsruby', "~> 0.5.1.1"
+gem 'simple_enum'
