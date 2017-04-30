@@ -56,6 +56,10 @@ gem 'bson_ext'
 gem 'kaminari-mongoid'
 gem 'kaminari-actionview'
 gem "bulma-rails", "~> 0.4.0"
+gem 'activeadmin'
+gem 'devise'
 
 gem 'themoviedb-api'
+gem 'wikipedia-client'
 gem 'rinruby', git: 'git@github.com:clbustos/rinruby.git'
+gem 'rsruby', "~> 0.5.1.1"

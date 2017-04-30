@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: 'movies#index'
   resources :source_apis do
     post 'load_dump'

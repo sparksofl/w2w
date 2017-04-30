@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.order_by(title: :desc).page(params[:page]).per(3)
+    @movies = Movie.order_by('count(similar_ids) desc').page(params[:page]).per(12)
   end
 
   # GET /movies/1

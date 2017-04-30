@@ -1,8 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Source Apis</h1>
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Source APIs</h1>
+    </div>
+  </div>
+</section>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -20,10 +26,10 @@
         <td><%= source_api.access_url %></td>
         <td><%= source_api.website %></td>
         <td><%= source_api.default %></td>
-        <td><%= link_to 'Load the dump', source_api_load_dump_path(source_api), method: :post %> |</td>
-        <td><%= link_to 'Show', source_api %>|</td>
-        <td><%= link_to 'Edit', edit_source_api_path(source_api) %>|</td>
-        <td><%= link_to 'Destroy', source_api, method: :delete, data: { confirm: 'Are you sure?' } %>|</td>
+        <td><%= link_to 'Load the dump', source_api_load_dump_path(source_api), method: :post, class: "button is-primary is-outlined" %></td>
+        <td><%= link_to 'Show', source_api, class: "button" %></td>
+        <td><%= link_to 'Edit', edit_source_api_path(source_api), class: "button" %></td>
+        <td><%= link_to 'Destroy', source_api, method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %></td>
       </tr>
     <% end %>
   </tbody>

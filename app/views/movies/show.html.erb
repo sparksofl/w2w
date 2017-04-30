@@ -8,67 +8,68 @@
     </tr>
   </thead>
   <tbody>
-  <tr>
-    <td width="70%">
-
-      <div class="card">
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-96x96">
-                <img src=<%= @movie.poster_path %>>
-              </figure>
+    <tr>
+      <td width="70%">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image">
+                  <img style="height: 50%"src=<%= @movie.poster_path %>>
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4"><%= @movie.title %></p>
+                <p class="subtitle is-6"><%= @movie.tagline %></p>
+              </div>
             </div>
-            <div class="media-content">
-              <p class="title is-4"><%= @movie.title %></p>
-              <p class="subtitle is-6"><%= @movie.tagline %></p>
+
+            <div class="content">
+              <br>
+              <%= @movie.overview %>
+              <br>
+              <small>
+                <strong>Tmdb:</strong>
+                <%= @movie.tmdb_id %>
+                <strong>Imdb:</strong>
+                <%= @movie.imdb_id %>
+                <%= @movie.keywords %>
+                <%= @movie.desc %>
+              </small>
             </div>
           </div>
-
-          <div class="content">
-            <br>
-            <br>
-            <br>
-            <%= @movie.overview %>
-            <br>
-            <small>
-              <strong>Tmdb:</strong>
-              <%= @movie.tmdb_id %>
-              <strong>Imdb:</strong>
-              <%= @movie.imdb_id %>
-              <%= @movie.keywords %>
-            </small>
-          </div>
+          <footer class="card-footer">
+            <%= link_to 'Edit', edit_movie_path(@movie), class: "card-footer-item" %>
+            <%= link_to 'Back', movies_path, class: "card-footer-item" %>
+          </footer>
         </div>
-        <footer class="card-footer">
-          <%= link_to 'Edit', edit_movie_path(@movie), class: "card-footer-item" %>
-          <%= link_to 'Back', movies_path, class: "card-footer-item" %>
-        </footer>
-      </div>
-    </td>
-    <td width="30%">
-      <% similar = Quanteda.run(@movie.id)[0..5] %>
+      </td>
+      <td width="30%">
+        <% similar = @movie.similar_ids.split(', ').map(&:to_s)[0..5] %>
+        <% # similar = @movie.similar_ids.present? ? JSON.parse(@movie.similar_ids)[0..5] : Quanteda.run(@movie.id)[0..5]  %>
 
-        <% similar.each_with_index do |m, i|%>
-          <%= link_to m do %>
-              <div class="card">
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src=<%= m.poster_path %>>
-                      </figure>
-                    </div>
-                    <div class="media-content">
-                      <p class="title is-4"><%= m.title %></p>
-                      <p class="subtitle is-6"><%= m.tagline %></p>
+
+        <% similar.each_with_index do |mid, i|%>
+            <% m = Movie.find(mid) %>
+            <%= link_to movie_path(m) do %>
+                <div class="card">
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-left">
+                        <figure class="image is-64x64">
+                          <img src=<%= m.poster_path %>>
+                        </figure>
+                      </div>
+                      <div class="media-content">
+                        <p class="title is-4"><%= m.title %></p>
+                        <p class="subtitle is-6"><%= m.tagline %></p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-          <% end  %>
-        <% end %>
-    </td>
-  </tr>
+            <% end  %>
+          <% end %>
+      </td>
+    </tr>
   </tbody>
 </table>

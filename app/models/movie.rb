@@ -7,6 +7,8 @@ class Movie
   field :keywords, type: String
   field :tagline, type: String
   field :poster_path, type: String
+  field :similar_ids, type: String
+  field :desc, type: String
 
   def self.batch_create(params)
     attrs = (attribute_names - ['_id', 'tmdb_id'])
