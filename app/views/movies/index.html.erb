@@ -9,8 +9,8 @@
           <%= form_tag(movies_path, method: :get) do %>
             <% for genre in Genre.all %>
               <li>
-                <%= check_box_tag 'genre_ids[]', genre.id %>
-                <%= genre.name -%>
+                <%= check_box_tag 'genre_ids[]', genre.id, @genres.include?(genre) %>
+                <%= "#{genre.name} (#{genre.movies.count})" -%>
               </li>
             <% end %>
             <br>
@@ -37,7 +37,7 @@
                   <div class="content">
                     <h3 class="is-3"><%= movie.title %></h3>
                     <p><%= movie.tagline %></p>
-                    <small><%= movie.genres %></small>
+                    <small><%= movie.genres_info %></small>
                   </div>
                 </div>
               </article>

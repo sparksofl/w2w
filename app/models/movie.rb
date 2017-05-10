@@ -39,14 +39,16 @@ class Movie
 
   def self.filter(params)
     if genre_ids = params[:genre_ids]
-      mg_ids = []
-      movie_ids = []
-      genre_ids.each { |id| mg_ids.push(*Genre.find(id).movie_genre_ids) }
-      movie_ids = mg_ids.each { |id| movie_ids.push(*MovieGenre.find(id).movie.id) }
-      where(id: movie_ids)
+      # where(genre_ids: genre_ids)
+      any_in({genre_ids: genre_ids})
     else
       all
     end
+  end
+
+  def genres_info
+    g = genres.map(&:name).join(', ')
+    g.empty? ? nil : g
   end
 
   def self.unlinked

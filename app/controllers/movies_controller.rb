@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   def index
     # @movies = Movie.all
     @movies = Movie.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(16)
+    @genres = Genre.find(params[:genre_ids])
     render :index
   end
 

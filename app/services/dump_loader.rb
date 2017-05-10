@@ -14,18 +14,16 @@ class DumpLoader
   def self.update_with_details
     Movie.all.each do |movie|
       details = Tmdb::Movie.detail(movie.tmdb_id)
-      details = details.to_h.slice(*Movie.attribute_names.map(&:to_sym) - [:poster_path])
       genres = details[:genres].dup
-      details[:genres] = details[:genres].map(&:name).join(', ')
+      details = details.to_h.slice(*Movie.attribute_names.map(&:to_sym) - [:poster_path])
+      # details[:genres] = details[:genres].map(&:name).join(', ')
       genres.map(&:id).each do |ext_id|
         genre = Genre.find_by(tmdb_id: ext_id)
-        mg = MovieGenre.create(movie_id: movie.id,
-                          genre_id: genre.id)
-        genre.movie_genres << mg
-        movie.movie_genres << mg
-        genre.save
+        movie.genres << genre
+        genre.movies << movie
       end
       movie.update(details)
+      genre.save
     end
   end
 
