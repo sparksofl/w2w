@@ -1,5 +1,21 @@
 <h2 class="title is-2">Source APIs</h2>
 
+
+<div class="tile is-ancestor">
+  <div class="tile is-parent">
+    <article class="tile is-child notification box is-info">
+      <%= link_to 'Get some genres', dump_genres_path, method: :post, class: "subtitle button is-info is-inverted is-outlined" %>
+      <p>From TMDB</p>
+    </article>
+  </div>
+  <div class="tile is-parent">
+    <article class="tile is-child box">
+      <%= link_to 'Assosiate movies', find_similar_movies_path, method: :post, class: "subtitle button is-warning is-inverted is-outlined", disabled: true %>
+      <p>via external R script</p>
+    </article>
+  </div>
+</div>
+
 <div class="tile is-ancestor">
   <div class="tile is-parent">
     <article class="tile is-child box notification is-primary">
@@ -19,8 +35,8 @@
 <div class="tile is-ancestor">
   <div class="tile is-parent">
     <article class="tile is-child notification box is-warning">
-      <%= link_to 'Genres dump init', dump_genres_path, method: :post, class: "subtitle button is-warning is-inverted is-outlined" %>
-      <p>Basic info from TMDB</p>
+      <%= link_to 'More details about movies', source_api_update_with_details_path(SourceApi.find_by(name: 'themoviedb-api')), method: :post, class: "subtitle button is-warning is-inverted is-outlined" %>
+      <p>Updates from TMDB</p>
     </article>
   </div>
   <div class="tile is-parent">

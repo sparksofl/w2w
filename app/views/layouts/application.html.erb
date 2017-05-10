@@ -9,40 +9,39 @@
   </head>
 
   <body>
-  <nav class="level has-shadow">
-    <div class="level-left">
-      <%= link_to '🍿', root_path, class: "nav-item", style: "font-size: 48px; padding: 0 20px;" %>
-      <div class="field has-addons">
-        <%= form_tag(movies_path, method: :get, class: "level-item") do %>
-            <%= text_field_tag :search, params[:search], class: 'input' %>
-            <%= submit_tag 'Search', title: nil, class: 'button is-primary' %>
+  <div class="container">
+    <nav class="level has-shadow">
+      <div class="level-left">
+        <%= link_to '🍿', root_path, class: "nav-item", style: "font-size: 48px; padding: 0 20px;" %>
+        <div class="field has-addons">
+          <%= form_tag(movies_path, method: :get, class: "level-item") do %>
+              <%= text_field_tag :search, params[:search], class: 'input' %>
+              <%= submit_tag 'Search', title: nil, class: 'button is-primary' %>
+          <% end %>
+        </div>
+      </div>
+      <div class="level-right">
+
+        <%= link_to '💾', source_apis_path, class: "level-item" if current_user.try(:admin?) %>
+
+        <% if user_signed_in? %>
+            <%= link_to 'Profile', edit_user_registration_path, class: "level-item" %>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "level-item" %>
+        <% else %>
+            <%= link_to "Sign up", new_user_registration_path, class: "level-item" %>
+            <%= link_to "Sign in", new_user_session_path, class: "level-item" %>
         <% end %>
       </div>
-    </div>
-    <div class="level-right">
+    </nav>
+    <br>
 
-      <%= link_to '💾', source_apis_path, class: "level-item" if current_user.try(:admin?) %>
-
-      <% if user_signed_in? %>
-          <%= link_to 'Profile', edit_user_registration_path, class: "level-item" %>
-          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "level-item" %>
-      <% else %>
-          <%= link_to "Sign up", new_user_registration_path, class: "level-item" %>
-          <%= link_to "Sign in", new_user_session_path, class: "level-item" %>
-      <% end %>
-    </div>
-  </nav>
-  <br>
-  <div class="columns">
-    <div class="column is-10 is-offset-1">
-      <% if notice %>
-          <div class="notification is-info"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-          <div class="notification is-danger"><%= alert %></div>
-      <% end %>
-      <%= yield %>
-    </div>
+    <% if notice %>
+        <div class="notification is-info"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+        <div class="notification is-danger"><%= alert %></div>
+    <% end %>
+    <%= yield %>
   </div>
 
   </body>

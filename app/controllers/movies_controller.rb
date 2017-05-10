@@ -10,7 +10,8 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.search(params[:search]).order_by('count(similar_ids) desc').page(params[:page]).per(16)
+    @movies = Movie.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(16)
+    render :index
   end
 
   # GET /movies/1

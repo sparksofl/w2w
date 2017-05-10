@@ -3,9 +3,12 @@ class Genre
   field :tmdb_id, type: String
   field :name, type: String
 
-  belongs_to :movie,   inverse_of: :genres
+  has_and_belongs_to_many :movies
 
-  def batch_create(params)
+  validates :tmdb_id, :name, presence: true
+  validates :name, uniqueness: true
+
+  def self.batch_create(params)
     params.each do |p|
       Genre.create(p)
     end

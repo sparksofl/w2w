@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'movies#index'
   resources :source_apis do
     post 'load_dump'
+    post 'update_with_details'
   end
   resources :movies
   post 'dump_genres' => 'genres#batch_create'

@@ -17,8 +17,24 @@
                 </figure>
               </div>
               <div class="media-content">
-                <p class="title is-4"><%= @movie.title %></p>
-                <p class="subtitle is-6"><%= @movie.tagline %></p>
+                <p class="title is-4">Title: <%= @movie.title %></p>
+                <br>
+                <p class="subtitle is-6">Tagline: "<%= @movie.tagline %>"</p>
+                <small>
+                  Release date:
+                  <%= @movie.release_date %>
+                  <br>
+                  Tmdb:
+                  <%= @movie.tmdb_id %>
+                  <br>
+                  Imdb:
+                  <%= @movie.imdb_id %>
+                  <br>
+                  Genre:
+                  <%= @movie.genres %>
+                  <br>
+                  <%= @movie.desc if current_user.try(:admin?) %>
+                </small>
               </div>
             </div>
 
@@ -27,12 +43,8 @@
               <%= @movie.overview %>
               <br>
               <small>
-                <strong>Tmdb:</strong>
-                <%= @movie.tmdb_id %>
-                <strong>Imdb:</strong>
-                <%= @movie.imdb_id %>
-                <%= @movie.keywords %>
-                <%= @movie.desc %>
+                <br>
+                <%= @movie.desc if current_user.try(:admin?) %>
               </small>
             </div>
           </div>

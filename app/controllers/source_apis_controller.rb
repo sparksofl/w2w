@@ -12,6 +12,11 @@ class SourceApisController < ApplicationController
     end
   end
 
+  def update_with_details
+    DumpLoader.update_with_details
+    redirect_to movies_path
+  end
+
   # GET /source_apis
   # GET /source_apis.json
   def index

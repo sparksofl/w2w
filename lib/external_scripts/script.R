@@ -3,8 +3,9 @@ require(quanteda)
 c = mongo(collection = "movies", db = "what2watch_development")
 df = c$aggregate()
 
-dataset <- df[,c('overview', '_id')]
-names(dataset)[names(dataset)=="overview"] <- "text"
+dataset <- df[,c('overview', 'desc', 'genres', '_id')]
+dataset$text <- paste(df$overview,df$desc)
+dataset$text <- paste(dataset$text,df$genres)
 
 
 inaugCorpus <- corpus(dataset)
@@ -19,10 +20,10 @@ for (i in 1:NROW(m)) {
     row = rev(sort(row))
     movieID <- names(row)[1]
     row <- row[2:length(row)]
-    row <- row[row >= 0.05]
+    row <- row[row >= 0.]
     ids <- toString(names(row))
 
     c$update(paste0('{"_id" : { "$oid" : "',movieID,'"}}'), paste0('{"$set":{"similar_ids": "',ids,'"}}'), multiple = TRUE)
 }
 
-rm(mongo); gc()
+rm(c); gc()
