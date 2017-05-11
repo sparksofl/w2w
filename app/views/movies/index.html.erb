@@ -2,14 +2,14 @@
   <div class="column is-5">
     <aside class="menu">
       <p class="menu-label">
-        By genres (not implemented)
+        By genres
       </p>
       <ul class="menu-list">
         <div class="columns">
           <%= form_tag(movies_path, method: :get) do %>
             <% for genre in Genre.all %>
               <li>
-                <%= check_box_tag 'genre_ids[]', genre.id, @genres.include?(genre) %>
+                <%= check_box_tag 'genre_ids[]', genre.id, @genres.try(:include?, :genre) %>
                 <%= "#{genre.name} (#{genre.movies.count})" -%>
               </li>
             <% end %>
