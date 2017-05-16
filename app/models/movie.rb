@@ -11,8 +11,11 @@ class Movie
   field :desc, type: String
   field :vote_average, type: Integer
   field :release_date, type: String
+  field :keywords_str, type: String
 
   has_and_belongs_to_many :genres
+  has_and_belongs_to_many :actors
+  has_and_belongs_to_many :keywords
 
   validates :title, :overview, presence: true
   validates :title, uniqueness: true
@@ -31,7 +34,8 @@ class Movie
   def self.search(str)
     if str
       str = str.downcase.gsub(/'/, "'''")
-      where(title: /.*#{str}.*/i)
+      pattern = /.*#{str}.*/i
+      any_of({title: pattern}, {overview: pattern})
     else
       all
     end
@@ -46,12 +50,15 @@ class Movie
     end
   end
 
-  def genres_info
-    g = genres.map(&:name).join(', ')
-    g.empty? ? nil : g
-  end
-
   def self.unlinked
     where(similar_ids: nil).count
+  end
+
+  def actors_info
+    actors.limit(10).map(&:name).join(', ')
+  end
+
+  def keywords_info
+    "##{keywords_str}".split(', ').join(', #')
   end
 end

@@ -10,8 +10,8 @@
   </div>
   <div class="tile is-parent">
     <article class="tile is-child box">
-      <%= link_to 'Assosiate movies', find_similar_movies_path, method: :post, class: "subtitle button is-warning is-inverted is-outlined", disabled: true %>
-      <p>via external R script</p>
+      <%= link_to 'Load actors', source_api_load_actors_path(SourceApi.find_by(name: 'themoviedb-api')), method: :post, class: "subtitle button is-warning is-inverted is-outlined" %>
+      <p>From TMDB</p>
     </article>
   </div>
 </div>

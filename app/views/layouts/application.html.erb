@@ -13,9 +13,10 @@
     <nav class="level has-shadow">
       <div class="level-left">
         <%= link_to '🍿', root_path, class: "nav-item", style: "font-size: 48px; padding: 0 20px;" %>
+        <%= link_to '🌌', overview_path, class: "nav-item", style: "font-size: 48px; padding: 0 20px;" %>
         <div class="field has-addons">
           <%= form_tag(movies_path, method: :get, class: "level-item") do %>
-              <%= text_field_tag :search, params[:search], class: 'input' %>
+              <%= text_field_tag :search, params[:search], class: 'input', placeholder: @rand_title %>
               <%= submit_tag 'Search', title: nil, class: 'button is-primary' %>
           <% end %>
         </div>

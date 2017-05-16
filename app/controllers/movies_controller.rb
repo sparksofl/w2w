@@ -15,6 +15,16 @@ class MoviesController < ApplicationController
     render :index
   end
 
+  def overview
+    words = Movie.pluck(:keywords_str).join().split(', ')
+    wf = Hash.new(0).tap { |h| words.each { |word| h[word] += 1 } }
+    @res = []
+    wf.each do |k,v|
+      @res << { text: k, weight: v, link: movies_path(search: k) }
+    end
+    @res
+  end
+
   # GET /movies/1
   # GET /movies/1.json
   def show

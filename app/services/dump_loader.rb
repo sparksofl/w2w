@@ -4,7 +4,7 @@ class DumpLoader
   def self.load
     # randoms = Tmdb::Movie.top_rated.map(&:id).map { |id| Tmdb::Movie.detail(id)  }
     randoms = []
-    (5..50).each do |i|
+    (21..51).each do |i|
       randoms.push(*Tmdb::Movie.popular(page: i)[:results])
     end
     # randoms.map { |movie| Tmdb::Movie.detail(movie[:id]) }
@@ -23,7 +23,6 @@ class DumpLoader
         genre.movies << movie
       end
       movie.update(details)
-      genre.save
     end
   end
 
@@ -44,6 +43,25 @@ class DumpLoader
     genres = Tmdb::Genre.movie_list
     genres.map! do |genre|
       { tmdb_id: genre.id, name: genre.name }
+    end
+  end
+
+  def self.load_actors
+    Movie.all.each do |movie|
+      cast = Tmdb::Movie.cast(movie.tmdb_id)
+      cast.each { |c| actor = Actor.create(name: c.name); movie.actors << actor }
+    end
+  end
+
+  def self.update_keywords
+    Movie.all.each do |m|
+      m.keywords.split(', ').each do |w|
+        if k = Keyword.find_by(name: w)
+          k.movie_ids << m.id
+        else
+          Keyword.create(name: w, movie_ids: [m.id])
+        end
+      end
     end
   end
 

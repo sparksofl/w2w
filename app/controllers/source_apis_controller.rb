@@ -17,6 +17,11 @@ class SourceApisController < ApplicationController
     redirect_to movies_path
   end
 
+  def load_actors
+    DumpLoader.load_actors
+    redirect_to movies_path
+  end
+
   # GET /source_apis
   # GET /source_apis.json
   def index

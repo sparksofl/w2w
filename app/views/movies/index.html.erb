@@ -9,7 +9,7 @@
           <%= form_tag(movies_path, method: :get) do %>
             <% for genre in Genre.all %>
               <li>
-                <%= check_box_tag 'genre_ids[]', genre.id, @genres.try(:include?, :genre) %>
+                <%= check_box_tag 'genre_ids[]', genre.id, (@genres ? @genres.map(&:id).try(:include?, genre.id) : false) %>
                 <%= "#{genre.name} (#{genre.movies.count})" -%>
               </li>
             <% end %>
@@ -36,8 +36,12 @@
                 <div class="media-content">
                   <div class="content">
                     <h3 class="is-3"><%= movie.title %></h3>
-                    <p><%= movie.tagline %></p>
-                    <small><%= movie.genres_info %></small>
+                    <h6 class="is-6" style="color: #666; font-weight: 100;"><%= movie.overview %></h6>
+                    <small>
+                      <% movie.genres.each do |g| %>
+                        <%= link_to g.name, movies_path(genre_ids: [g.id]), class: "button is-info is-outlined" %>
+                      <% end %>
+                    </small>
                   </div>
                 </div>
               </article>

@@ -53,7 +53,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pry'
 gem 'mongoid'
 gem 'bson_ext'
-gem 'kaminari-mongoid'
+gem 'kaminari-mongoid', git: 'https://github.com/kaminari/kaminari-mongoid'
 gem 'kaminari-actionview'
 gem "bulma-rails", "~> 0.4.0"
 gem 'rails_admin', '~> 1.1.1'
@@ -64,3 +64,4 @@ gem 'wikipedia-client'
 gem 'rinruby', git: 'git@github.com:clbustos/rinruby.git'
 gem 'rsruby', "~> 0.5.1.1"
 gem 'simple_enum'
+gem "jqcloud-rails"

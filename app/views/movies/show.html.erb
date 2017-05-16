@@ -17,9 +17,9 @@
                 </figure>
               </div>
               <div class="media-content">
-                <p class="title is-4">Title: <%= @movie.title %></p>
+                <p class="title is-4"><%= @movie.title %></p>
                 <br>
-                <p class="subtitle is-6">Tagline: "<%= @movie.tagline %>"</p>
+                <p class="subtitle is-6"><i>"<%= @movie.tagline %>"</i></p>
                 <small>
                   Release date:
                   <%= @movie.release_date %>
@@ -30,10 +30,14 @@
                   Imdb:
                   <%= @movie.imdb_id %>
                   <br>
-                  Genre:
-                  <%= @movie.genres %>
+                  Genres:
+                  <% @movie.genres.each do |g| %>
+                      <%= link_to g.name, movies_path(genre_ids: [g.id]), class: "button is-info is-outlined is-small" %>
+                  <% end %>
                   <br>
-                  <%= @movie.desc if current_user.try(:admin?) %>
+                  Actors:
+                  <%= @movie.actors_info %>
+                  <br>
                 </small>
               </div>
             </div>
@@ -41,17 +45,13 @@
             <div class="content">
               <br>
               <%= @movie.overview %>
-              <br>
+              <hr>
+              <i><%= @movie.keywords_info %></i>
               <small>
                 <br>
-                <%= @movie.desc if current_user.try(:admin?) %>
               </small>
             </div>
           </div>
-          <footer class="card-footer">
-            <%= link_to 'Edit', edit_movie_path(@movie), class: "card-footer-item" %>
-            <%= link_to 'Back', movies_path, class: "card-footer-item" %>
-          </footer>
         </div>
       </td>
       <td width="30%">
@@ -72,7 +72,7 @@
                       </div>
                       <div class="media-content">
                         <p class="title is-4"><%= m.title %></p>
-                        <p class="subtitle is-6"><%= m.tagline %></p>
+                        <p class="subtitle is-6"><i><%= m.keywords_info %></i></p>
                       </div>
                     </div>
                   </div>

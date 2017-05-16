@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   resources :source_apis do
     post 'load_dump'
     post 'update_with_details'
+    post 'load_actors'
   end
   resources :movies
+  get 'overview' => 'movies#overview'
   post 'dump_genres' => 'genres#batch_create'
   post 'find_similar_movies' => 'movies#find_similar'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
