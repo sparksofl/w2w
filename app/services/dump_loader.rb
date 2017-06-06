@@ -4,8 +4,8 @@ class DumpLoader
   def self.load
     # randoms = Tmdb::Movie.top_rated.map(&:id).map { |id| Tmdb::Movie.detail(id)  }
     randoms = []
-    (21..51).each do |i|
-      randoms.push(*Tmdb::Movie.popular(page: i)[:results])
+    (51..10).each do |i|
+      randoms.push(*Tmdb::Movie.top_rated(page: i)[:results])
     end
     # randoms.map { |movie| Tmdb::Movie.detail(movie[:id]) }
     randoms
@@ -29,11 +29,12 @@ class DumpLoader
   def self.update_via_wiki
     Movie.all.each do |movie|
       begin
-        page = Wikipedia.find( movie.title)
+        page = Wikipedia.find(movie.title)
+        page = Wikipedia.find("#{movie.title} (film)") unless movie_plot(page.text)
         next unless page.text
-        next if movie.desc
-        movie.update(desc: page.text)
+        movie.update(desc: movie_plot(page.text))
       rescue
+        p movie.id
         next
       end
     end
@@ -71,5 +72,16 @@ class DumpLoader
       randoms << rand(max)
       return randoms.to_a if randoms.size >= n
     end
+  end
+
+  def movie_plot(text)
+    return unless text
+    str1_markerstring = "== Plot"
+    str1_alt_markerstring = "== Setting"
+    str2_markerstring = "\n\n\n=="
+    input_string = text
+    res = input_string[/#{str1_markerstring}(.*?)#{str2_markerstring}/m, 1]
+    res = input_string[/#{str1_alt_markerstring}(.*?)#{str2_markerstring}/m, 1] if res.nil?
+    res
   end
 end

@@ -1,9 +1,9 @@
 <script type="text/javascript">
-  var word_array = <%= @res.to_json.html_safe %>;
+    var word_array = <%= @res.to_json.html_safe %>;
 
-  $(function() {
-      $("#example").jQCloud(word_array);
-  });
+    $(function() {
+        $("#example").jQCloud(word_array);
+    });
 </script>
 <div class="columns">
   <div class="column" id="example" style="width: 1500px; height: 1000px;"></div>

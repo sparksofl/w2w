@@ -10,19 +10,39 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(16)
+    @movies = Movie.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(10)
     @genres = Genre.find(params[:genre_ids]) if params[:genre_ids]
     render :index
   end
 
+  def data
+    @res
+    @data = []
+    movies = Movie.limit(50)
+    movies.each do |m|
+      r = {}
+      r[:name] = "Title.#{m.title}"
+      r[:imports] = []
+      m.keywords_str.split(', ').each do |kw|
+        r[:imports] << "Tag.#{kw}"
+      end
+      m.genres.each do |g|
+        r[:imports] << "Categorie.#{g.name}"
+      end
+      @data << r
+    end
+    @data = @data.to_json
+    render json: @data
+  end
+
   def overview
-    words = Movie.pluck(:keywords_str).join().split(', ')
+    words = Movie.pluck(:processed_text).join().split(', ')
     wf = Hash.new(0).tap { |h| words.each { |word| h[word] += 1 } }
     @res = []
     wf.each do |k,v|
       @res << { text: k, weight: v, link: movies_path(search: k) }
     end
-    @res
+
   end
 
   # GET /movies/1
@@ -87,6 +107,6 @@ class MoviesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movie_params
-      params.require(:movie).permit(:title, :tmdb_id, :imdb_id, :overview, :keywords, :tagline, :poster_path)
+      params.require(:movie).permit(:title, :tmdb_id, :imdb_id, :overview, :keywords, :tagline, :poster_path, :desc)
     end
 end

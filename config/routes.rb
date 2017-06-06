@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
   resources :movies
   get 'overview' => 'movies#overview'
+  get 'data' => 'movies#data'
   post 'dump_genres' => 'genres#batch_create'
   post 'find_similar_movies' => 'movies#find_similar'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

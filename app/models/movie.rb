@@ -12,6 +12,8 @@ class Movie
   field :vote_average, type: Integer
   field :release_date, type: String
   field :keywords_str, type: String
+  field :keyphrases_str, type: String
+  field :processed_text, type: String
 
   has_and_belongs_to_many :genres
   has_and_belongs_to_many :actors
@@ -34,8 +36,14 @@ class Movie
   def self.search(str)
     if str
       str = str.downcase.gsub(/'/, "'''")
-      pattern = /.*#{str}.*/i
-      any_of({title: pattern}, {overview: pattern})
+      if str[0] == '#'
+        str = str.gsub(/#/, "")
+        pattern = /.*#{str}.*/i
+        any_of({processed_text: pattern})
+      else
+        pattern = /.*#{str}.*/i
+        any_of({title: pattern}, {processed_text: pattern})
+      end
     else
       all
     end
@@ -59,6 +67,6 @@ class Movie
   end
 
   def keywords_info
-    "##{keywords_str}".split(', ').join(', #')
+    "##{keywords_str}".downcase.split(', ').join(', #')
   end
 end

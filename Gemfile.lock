@@ -70,6 +70,8 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    d3-rails (4.9.0)
+      railties (>= 3.1)
     devise (4.3.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -248,6 +250,7 @@ DEPENDENCIES
   bulma-rails (~> 0.4.0)
   byebug
   coffee-rails (~> 4.2)
+  d3-rails
   devise
   jbuilder (~> 2.5)
   jqcloud-rails

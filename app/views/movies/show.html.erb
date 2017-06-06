@@ -46,39 +46,53 @@
               <br>
               <%= @movie.overview %>
               <hr>
-              <i><%= @movie.keywords_info %></i>
+              <i style="color: #666; font-weight: 100;">
+                <% @movie.keywords_info.split(', ').each do |word| %>
+                  <%= link_to "#{word}", movies_path(search: "#{word}") %>
+                <% end %>
+              </i>
               <small>
                 <br>
+                <%= @movie.desc %>
               </small>
+              <hr>
+              <% if current_user.admin? %>
+                  <div>
+                    <%= link_to 'Edit', edit_movie_path(@movie) %>
+                    <%= link_to 'Destroy', @movie, method: :delete %>
+                  </div>
+              <% end %>
             </div>
           </div>
         </div>
       </td>
       <td width="30%">
-        <% similar = @movie.similar_ids.split(', ').map(&:to_s)[0..5] %>
+        <% similar = @movie.similar_ids.split(', ').map(&:to_s)[0..5] if @movie.similar_ids %>
         <% # similar = @movie.similar_ids.present? ? JSON.parse(@movie.similar_ids)[0..5] : Quanteda.run(@movie.id)[0..5]  %>
 
 
-        <% similar.each_with_index do |mid, i|%>
-            <% m = Movie.find(mid) %>
-            <%= link_to movie_path(m) do %>
-                <div class="card">
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-64x64">
-                          <img src=<%= m.poster_path %>>
-                        </figure>
-                      </div>
-                      <div class="media-content">
-                        <p class="title is-4"><%= m.title %></p>
-                        <p class="subtitle is-6"><i><%= m.keywords_info %></i></p>
-                      </div>
+        <% if similar %>
+          <% similar.each_with_index do |mid, i| %>
+          <% m = Movie.find(mid) %>
+          <%= link_to movie_path(m) do %>
+              <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                        <img src=<%= m.poster_path %>>
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-4"><%= m.title %></p>
+                      <p class="subtitle is-6"><i style="color: #666; font-weight: 100; font-size: small"><%= m.keywords_info %></i></p>
                     </div>
                   </div>
                 </div>
-            <% end  %>
-          <% end %>
+              </div>
+          <% end  %>
+        <% end %>
+        <% end %>
       </td>
     </tr>
   </tbody>

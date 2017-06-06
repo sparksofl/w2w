@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   end
 
   def generate_rand_title
+    # @res = Movie.pluck(:keywords_str).join().split(', ')
     @rand_title = '' # Movie.skip(rand(Movie.count)).first.title
   end
 end
