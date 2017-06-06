@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
   resources :movies
   get 'overview' => 'movies#overview'
+  get 'graph' => 'movies#graph'
   get 'data' => 'movies#data'
   post 'dump_genres' => 'genres#batch_create'
   post 'find_similar_movies' => 'movies#find_similar'

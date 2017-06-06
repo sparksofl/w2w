@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(10)
+    @movies = Movie.all.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(10)
     @genres = Genre.find(params[:genre_ids]) if params[:genre_ids]
     render :index
   end
@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
   def data
     @res
     @data = []
-    movies = Movie.limit(50)
+    movies = Movie.all.limit(50)
     movies.each do |m|
       r = {}
       r[:name] = "Title.#{m.title}"
@@ -36,18 +36,47 @@ class MoviesController < ApplicationController
   end
 
   def overview
-    words = Movie.pluck(:processed_text).join().split(', ')
+    words = Movie.all.pluck(:keywords_str).join().split(', ')
     wf = Hash.new(0).tap { |h| words.each { |word| h[word] += 1 } }
     @res = []
     wf.each do |k,v|
       @res << { text: k, weight: v, link: movies_path(search: k) }
     end
 
+    @data = []
+    Movie.all.limit(250).each do |movie|
+      movie.similar_ids.split(', ').each do |id|
+        @data << { source: movie.title, target: Movie.find(id).title, type: 'abc' }
+      end
+    end
+  end
+
+  def graph
+    movies = Movie.all.order_by('count(similar_ids) desc').limit(100)
+    @links = []
+    @nodes = movies.pluck(:title)
+    movies.each do |movie|
+      movie.similar_ids.split(', ')[0,5].each do |id|
+        similar = Movie.find(id)
+        genre = (movie.genres.pluck(:name)&similar.genres.pluck(:name))[0]
+        @links << { source: movie.title, target: Movie.find(id).title, type: genre }
+      end
+    end
   end
 
   # GET /movies/1
   # GET /movies/1.json
   def show
+    movies = @movie.similar_ids.split(', ')[0,4].map { |id| Movie.find(id) }
+    @links = []
+    @nodes = movies.pluck(:title)
+    movies.each do |movie|
+      movie.similar_ids.split(', ')[0,5].each do |id|
+        similar = Movie.find(id)
+        genre = (movie.genres.pluck(:name)&similar.genres.pluck(:name))[0]
+        @links << { source: movie.title, target: Movie.find(id).title, type: genre }
+      end
+    end
   end
 
   # GET /movies/new

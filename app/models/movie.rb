@@ -33,13 +33,17 @@ class Movie
     end
   end
 
+  def self.all
+    self.not.where(similar_ids: '')
+  end
+
   def self.search(str)
     if str
       str = str.downcase.gsub(/'/, "'''")
       if str[0] == '#'
         str = str.gsub(/#/, "")
         pattern = /.*#{str}.*/i
-        any_of({processed_text: pattern})
+        any_of({processed_text: pattern}, {title: pattern}, {desc: pattern})
       else
         pattern = /.*#{str}.*/i
         any_of({title: pattern}, {processed_text: pattern})
