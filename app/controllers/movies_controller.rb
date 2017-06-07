@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     # @movies = Movie.all
-    @movies = Movie.all.search(params[:search]).filter(params).order_by('count(similar_ids) desc').page(params[:page]).per(10)
+    @movies = Movie.all.search(params[:search]).filter(params).order_by('vote_average desc').page(params[:page]).per(10)
     @genres = Genre.find(params[:genre_ids]) if params[:genre_ids]
     render :index
   end
@@ -42,24 +42,18 @@ class MoviesController < ApplicationController
     wf.each do |k,v|
       @res << { text: k, weight: v, link: movies_path(search: k) }
     end
-
-    @data = []
-    Movie.all.limit(250).each do |movie|
-      movie.similar_ids.split(', ').each do |id|
-        @data << { source: movie.title, target: Movie.find(id).title, type: 'abc' }
-      end
-    end
   end
 
   def graph
-    movies = Movie.all.order_by('count(similar_ids) desc').limit(100)
+    movies = Movie.all.order_by('vote_average desc').limit(50)
     @links = []
     @nodes = movies.pluck(:title)
     movies.each do |movie|
-      movie.similar_ids.split(', ')[0,5].each do |id|
+      similar_ids = movie.similar_ids.split(', ')
+      similar_ids[0,5].each do |id|
         similar = Movie.find(id)
         genre = (movie.genres.pluck(:name)&similar.genres.pluck(:name))[0]
-        @links << { source: movie.title, target: Movie.find(id).title, type: genre }
+        @links << { source: movie.title, target: Movie.find(id).title, type: genre, radius: similar_ids.length }
       end
     end
   end

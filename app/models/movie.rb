@@ -8,6 +8,7 @@ class Movie
   field :tagline, type: String
   field :poster_path, type: String
   field :similar_ids, type: String
+  field :similar_cs, type: String
   field :desc, type: String
   field :vote_average, type: Integer
   field :release_date, type: String
@@ -46,7 +47,7 @@ class Movie
         any_of({processed_text: pattern}, {title: pattern}, {desc: pattern})
       else
         pattern = /.*#{str}.*/i
-        any_of({title: pattern}, {processed_text: pattern})
+        any_of({title: pattern})
       end
     else
       all
@@ -72,5 +73,13 @@ class Movie
 
   def keywords_info
     "##{keywords_str}".downcase.split(', ').join(', #')
+  end
+
+  def similar_hash
+    return unless similar_ids
+    return unless similar_cs
+    ids = similar_ids.split(', ').map(&:to_s)[0..5]
+    cs = similar_cs.split(', ').map { |f| ("%5.2f" % f).to_f * 100 }[0..5]
+    Hash[ids.zip cs]
   end
 end

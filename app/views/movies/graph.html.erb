@@ -1,4 +1,5 @@
 <script src="//d3js.org/d3.v3.min.js"></script>
+<script type='text/javascript' src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"> </script>
 <style>
 
   * {
@@ -18,9 +19,11 @@
 
   text {
     font-weight: 100;
-    font: 9px sans-serif;
+    font: 10px sans-serif;
     pointer-events: none;
+
   }
+}
 
 </style>
 
@@ -42,7 +45,7 @@
         .nodes(d3.values(nodes))
         .links(links)
         .size([width, height])
-        .linkDistance(60)
+        .linkDistance(100)
         .charge(-300)
         .on("tick", tick)
         .start();
@@ -70,10 +73,16 @@
         .text(function(d) { return d.name; });
 
     node.append("circle")
-        .attr("r", 5)
+        .attr("r", 8)
         .style("fill", function(d, i){
             return colors(i);
         });
+
+    var k = 0;
+    while ((force.alpha() > 1e-2) && (k < 150)) {
+        force.tick(),
+        k = k + 1;
+    }
 
     function tick() {
         link

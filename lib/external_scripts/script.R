@@ -5,19 +5,19 @@ c = mongo(collection = "movies", db = "what2watch_development")
 df = c$aggregate()
 
 dataset <- df[,c('overview', 'desc', '_id')]
-#dataset$text <- paste(df$overview,df$desc)
+dataset$text <- paste(df$overview,df$desc)
 #dataset$text <- paste(df$processed_text,df$genres)
-dataset$text <- df$processed_text
+# dataset$text <- df$processed_text
 
-# for (i in 1:NROW(dataset$text)) {
-#   dataset$text[i] <- gsub("\\b[A-Z][^ ]*(\\s+)?", "", dataset$text[i])
-#   phrases <- phrasemachine(dataset$text[i],
-#                            minimum_ngram_length = 1,
-#                            maximum_ngram_length = 3,
-#                            return_phrase_vectors = TRUE,
-#                            return_tag_sequences = TRUE)
-#   dataset$text[i] <- toString(phrases[[1]]$phrases)
-# }
+for (i in 1:NROW(dataset$text)) {
+  dataset$text[i] <- gsub("\\b[A-Z][^ ]*(\\s+)?", "", dataset$text[i])
+  phrases <- phrasemachine(dataset$text[i],
+                           minimum_ngram_length = 1,
+                           maximum_ngram_length = 3,
+                           return_phrase_vectors = TRUE,
+                           return_tag_sequences = TRUE)
+  dataset$text[i] <- toString(phrases[[1]]$phrases)
+}
 
 
 inaugCorpus <- corpus(dataset)
@@ -61,7 +61,7 @@ for (i in 1:NROW(m)) {
     keywords <- toString(colnames(dfm_sort(myDfm[i,])[,1:10]))
     c$update(paste0('{"_id" : { "$oid" : "',movieID,'"}}'), paste0('{"$set":{"similar_ids": "',ids,'"}}'), multiple = TRUE)
     c$update(paste0('{"_id" : { "$oid" : "',movieID,'"}}'), paste0('{"$set":{"keywords_str":"',keywords,'"}}'), multiple = TRUE)
-    #c$update(paste0('{"_id" : { "$oid" : "',movieID,'"}}'), paste0('{"$set":{"processed_text":"',gsub("\"", "", dataset[i,]$text),'"}}'), multiple = TRUE)
+    c$update(paste0('{"_id" : { "$oid" : "',movieID,'"}}'), paste0('{"$set":{"processed_text":"',gsub("\"", "", dataset[i,]$text),'"}}'), multiple = TRUE)
 }
 
 rm(c); gc()

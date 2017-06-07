@@ -4,8 +4,8 @@ class DumpLoader
   def self.load
     # randoms = Tmdb::Movie.top_rated.map(&:id).map { |id| Tmdb::Movie.detail(id)  }
     randoms = []
-    (51..10).each do |i|
-      randoms.push(*Tmdb::Movie.top_rated(page: i)[:results])
+    (1..50).each do |i|
+      randoms.push(*Tmdb::Movie.popular(page: i)[:results])
     end
     # randoms.map { |movie| Tmdb::Movie.detail(movie[:id]) }
     randoms
@@ -27,16 +27,11 @@ class DumpLoader
   end
 
   def self.update_via_wiki
-    Movie.all.each do |movie|
-      begin
-        page = Wikipedia.find(movie.title)
-        page = Wikipedia.find("#{movie.title} (film)") unless movie_plot(page.text)
-        next unless page.text
-        movie.update(desc: movie_plot(page.text))
-      rescue
-        p movie.id
-        next
-      end
+    Movie.where(desc: nil).each do |movie|
+      page = Wikipedia.find(movie.title)
+      page = Wikipedia.find("#{movie.title} (film)") unless movie_plot(page.text)
+      next unless page.text
+      movie.update(desc: movie_plot(page.text))
     end
   end
 

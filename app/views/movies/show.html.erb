@@ -23,6 +23,9 @@
                     <br>
                     <p class="subtitle is-6"><i>"<%= @movie.tagline %>"</i></p>
                     <small>
+                      Vote average:
+                      <%= @movie.vote_average %>
+                      <br>
                       Release date:
                       <%= @movie.release_date %>
                       <br>
@@ -74,13 +77,13 @@
         </div>
       </td>
       <td width="30%">
-        <% similar = @movie.similar_ids.split(', ').map(&:to_s)[0..5] if @movie.similar_ids %>
+        <% similar = @movie.similar_hash if @movie.similar_hash %>
         <% # similar = @movie.similar_ids.present? ? JSON.parse(@movie.similar_ids)[0..5] : Quanteda.run(@movie.id)[0..5]  %>
 
 
         <% if similar %>
-          <% similar.each_with_index do |mid, i| %>
-          <% m = Movie.find(mid) %>
+          <% similar.each do |k, v| %>
+          <% m = Movie.find(k) %>
           <%= link_to movie_path(m) do %>
               <div class="card">
                 <div class="card-content">
@@ -88,6 +91,7 @@
                     <div class="media-left">
                       <figure class="image is-64x64">
                         <img src=<%= m.poster_path %>>
+                        <small style="font-weight: 100;"><%= "similarity: #{v}%" %></small>
                       </figure>
                     </div>
                     <div class="media-content">
